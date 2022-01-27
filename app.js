@@ -35,6 +35,30 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
 app.use(express.json());         //middelware for parsing json data to javascript object
 app.use(cors());
 
+app.get('/', (req, res) => {
+    res.status(200).json({
+        message : "Hello there!",
+        success : true
+    })
+})
 app.use(log_signup_router);
 app.use(other_router);
+
+
+
+app.use((req, res, next)=>{
+    let error = new Error('Not found');
+    error.status = 404;
+    next(error);
+})
+
+
+app.use((error, res, next)=>{
+   try{
+       res.status(error.status).json({message : error.message, success : false});
+   }
+   catch(err){
+       res.status(500).json({message: err.message, success : false});
+   }
+})
 

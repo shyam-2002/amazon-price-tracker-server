@@ -2,9 +2,7 @@ FROM public.ecr.aws/bitnami/node:14
 
 WORKDIR /app
 
-COPY ./package*.json ./
 
-RUN sudo npm install
 
 COPY . ./
 

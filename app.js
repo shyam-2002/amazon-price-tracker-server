@@ -37,7 +37,7 @@ app.use(cors());
 
 app.get('/', (req, res) => {
     res.status(200).json({
-        message : "Hello there!",
+        message : "Hello developer!",
         success : true
     })
 })

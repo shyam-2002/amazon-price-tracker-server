@@ -13,5 +13,4 @@ ENV bucketName "amazon-price-tracker"
 
 EXPOSE 3000
 
-RUN ["chmod", "+x", "/usr/local/bin/docker-entrypoint.sh"]
 CMD ["npm", "start"]

@@ -1,4 +1,4 @@
-FROM node:14
+FROM public.ecr.aws/bitnami/node:14
 
 WORKDIR /app
 

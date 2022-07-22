@@ -10,6 +10,6 @@ let router = express.Router();
 router.post("/getdata", decode_user_id ,get_data);
 router.post("/addproduct",decode_user_id, add_data);
 router.post("/verifyProduct",decode_user_id, verify_product);
-router.post("/remove_item", remove_item);
+router.post("/remove_item", decode_user_id, remove_item);
 
 module.exports = router;

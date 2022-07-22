@@ -1,16 +1,18 @@
 let send_response = (data, status, msg, error)=>{
     try{
-        if(data){
+        if(error === null){
             res.status(status).json({
                 success : true,
                 message : msg,
+                error : null,
                 data : data
             })
-        }else if(error){
+        }else{
             res.status(status).json({
                 success : false,
                 message : msg,
-                data : null
+                error : error,
+                data : data
             })
         }
     }

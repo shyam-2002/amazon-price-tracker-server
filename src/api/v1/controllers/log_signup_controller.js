@@ -23,8 +23,7 @@ let login_post = async (req, res) => {
     catch (err) {
         console.log(err);
         let errors = handle_err(err);
-        next(null, 400, "error logging in the user", )
-        res.send({ errors });
+        next(null, 400, "error logging in the user", err.message);
     }
 }
 
@@ -39,13 +38,13 @@ let signup_post = async (req, res) => {
         let us = await user.save();
         let userId = us._id;
         let encoded_user_id = jwt.sign({userId}, secret_key);
-        res.send({id : encoded_user_id, username : us.username});
+        next({id : encoded_user_id, username : us.username}, 200, "successfully signed up", null);
     }
     catch (err) {
         console.log(err);
         let errors = handle_err(err);
         console.log(errors);
-        res.send({ errors })
+        next(errors, 400, "could not sign up user", err.message);
     }
 }
 

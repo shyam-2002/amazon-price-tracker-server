@@ -19,7 +19,11 @@ const userSchema = new Schema({
         type: String,
         required: true,
         minlength: [6, "Password is too short"]
-    }
+    },
+    tracking_list: [{
+        product_id: { type: Schema.Types.ObjectId, ref: 'Product' }, 
+        threshold_price: Number 
+    }]
 }, { timestamps: true });
 
 
@@ -51,6 +55,6 @@ userSchema.statics.login = async function (email, password) {
 
 
 
-const userModel = mongoose.model("user", userSchema);
+const User = mongoose.model("user", userSchema);
 
-module.exports = { userModel };
+module.exports = { User };

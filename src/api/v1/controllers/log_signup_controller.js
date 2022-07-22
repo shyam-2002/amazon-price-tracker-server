@@ -1,7 +1,8 @@
 require("dotenv").config();
 
-let { userModel } = require("../models/user_schema");
-let { handle_err } = require("../error_handeling");
+let { User } = require("../../../models/");
+let { handle_err } = require("../../../error_handeling");
+
 
 
 let secret_key = process.env.jwtSecret;
@@ -14,14 +15,15 @@ let jwt = require("jsonwebtoken");
 let login_post = async (req, res) => {
     console.log(req.body);
     try {
-        let user = await userModel.login(req.body.email, req.body.password);
+        let user = await User.login(req.body.email, req.body.password);
         let userId = user._id;
         let encoded_user_id = jwt.sign({userId}, secret_key);
-        res.send({id : encoded_user_id, username : user.username});
+        next({id : encoded_user_id, username : user.username}, 200, "successfully logged in", null);
     }
     catch (err) {
         console.log(err);
         let errors = handle_err(err);
+        next(null, 400, "error logging in the user", )
         res.send({ errors });
     }
 }
@@ -32,7 +34,7 @@ let login_post = async (req, res) => {
 let signup_post = async (req, res) => {
     console.log("came to signup");
     console.log(req.body);
-    let user = new userModel(req.body);
+    let user = new User(req.body);
     try {
         let us = await user.save();
         let userId = us._id;

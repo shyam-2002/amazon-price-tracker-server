@@ -1,4 +1,4 @@
-let { productModel } = require("../models/products_schema");
+let { Product } = require("../models/products_schema");
 
 
 // controller for getting the product data a user has added
@@ -7,7 +7,7 @@ let get_data = async (req, res) => {
     console.log("hi");
     try {
         console.log(req.body);
-        let products = await productModel.find(req.body);
+        let products = await User.findOne({_id : req.body.userId}).populate({path : "tracking_list", select : "name url prices.$.last"});
         res.send({ products });
     }
     catch (err) {
@@ -21,10 +21,17 @@ let get_data = async (req, res) => {
 let add_data = async (req, res) => {
     console.log("adding product");
     console.log(req.body);
-    let product = new productModel(req.body);
-    try {
-        let data = await product.save()
-        res.send(data);
+    try{
+        let product = await Product.findOne({url : req.body.url});
+        if(product){
+            await User.updateOne({_id : req.body.userId}, {"$push" : {"tracking_list" : {product_id : product._id, threshold_price : req.body.threshold_price}}});
+            product.users.push(req.body.userId);
+            await product.save();
+        }else{
+            let product = new Product({name : req.body.name, url : req.body.url, seller : req.body.seller});
+            await User.updateOne({_id : userId}, {"$push" : {"tracking_list" : {product_id : product._id, threshold}}});
+        }
+        res.send(product);
     }
     catch (err) {
         console.log(err);
@@ -38,9 +45,9 @@ let add_data = async (req, res) => {
 let verify_product = async (req, res)=>{
     console.log("came to verification");
     try{
-         let products = await productModel.find(req.body);
-         console.log(products);
-         if(products.length){
+         let product = await Product.findOne({"url" : req.body.url, "users" : req.body.userId});
+         console.log(product);
+         if(product){
              res.send({available : true});
          }
          else{
@@ -57,13 +64,11 @@ let verify_product = async (req, res)=>{
 let remove_item = async (req, res)=>{
     console.log(req.body);
     try{
-      let a = await productModel.findByIdAndDelete(req.body.id);
-      console.log(a);
-      res.send(a);
+      await User.updateOne({_id : req.body.userId}, {"$pull" : {"tracking_list" : {"product_id" : req.body.product_id}}});
+      
     }
     catch(err){
         console.log(err);
-
     }
 }
 

@@ -9,6 +9,7 @@ const app = express();
 
 
 require('./config/mongoose');
+require('./config/price_tracker_cron')
 
 
 app.use(express.json());         //middelware for parsing json data to javascript object

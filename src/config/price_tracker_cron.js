@@ -27,7 +27,7 @@ let find_price_str = (seller, markup) => {
 
 
 
-let priceTrackingJob = new CronJob('*/ */1 * * * *', async function () {
+let priceTrackingJob = new CronJob('*/10 */1 * * * *', async function () {
     try {
         console.log("hi every minute");
         let products = await Product.find({}, {"prices" : 1, "url" : 1, "seller" : 1});
@@ -37,7 +37,7 @@ let priceTrackingJob = new CronJob('*/ */1 * * * *', async function () {
             let url = product.url;
             let html = await axios.get(url);
             let markup = cheerio.load(html.data);
-            let price_str = find_price_str('amazon', markup);
+            let price_str = find_price_str(product.seller, markup);
             console.log(price_str);
             let price = parseInt(find_price(price_str));
             console.log(price);

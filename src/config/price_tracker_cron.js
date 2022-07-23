@@ -9,7 +9,7 @@ let find_price = (price_str)=>{
     if(price_str === undefined || price_str === "unavailable"){
         return null;
     }else{
-        return price_str.substr(1);
+        return price_str.substr(1).replaceAll(",", "");
     }
 
 }

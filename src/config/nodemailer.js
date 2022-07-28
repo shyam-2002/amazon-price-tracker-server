@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport({
     service:'gmail',
     auth: {
         type:'OAuth2',
-        user:'goyalshyamsundar2@gmail.com',
+        user: process.env.user_email,
         clientId: process.env.email_client_id,
         clientSecret: process.env.email_client_secret,
         refreshToken: process.env.refresh_token,

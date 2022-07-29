@@ -9,8 +9,7 @@ const app = express();
 
 
 require('./config/mongoose');
-require('./config/price_tracker_cron');
-let transporter = require('./config/nodemailer');
+require('./config/price_tracker_job');
 
 
 app.use(express.json());         //middelware for parsing json data to javascript object
@@ -36,12 +35,7 @@ app.use('/', require('./api'));
 // })
 
 
-// transporter.sendMail({
-//     from: 'Shyam Sundar Goyal <goyalshyamsundar2@gmail.com>',
-//     to: 'goyalshyamsundar20@gmail.com',
-//     subject: 'test email',
-//     html: `hi`,
-// })
+
 
 app.listen(port, ()=>{
     console.log(`server is listening on port ${port}`);

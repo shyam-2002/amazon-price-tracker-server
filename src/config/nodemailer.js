@@ -14,12 +14,27 @@ const transporter = nodemailer.createTransport({
     service:'gmail',
     auth: {
         type:'OAuth2',
-        user: process.env.user_email,
+        user: process.env.sender_email,
         clientId: process.env.email_client_id,
         clientSecret: process.env.email_client_secret,
         refreshToken: process.env.refresh_token,
         accessToken: getAccessToken()
     }
+})
+
+let send_mail = async (sender, receiver, subject, html)=>{
+    try{
+        transporter.sendMail({
+            from: sender,
+            to: receiver,
+            subject: subject,
+            html: html,
+        })
+    }
+    catch(err){
+        console.log(err.message);
+    }
 }
-)
-module.exports = transporter;
+
+
+module.exports = send_mail;

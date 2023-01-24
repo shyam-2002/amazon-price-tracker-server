@@ -96,4 +96,4 @@ async function check_price() {
 };
 
 
-setInterval(check_price, 3600000);
+setInterval(check_price, 10000);

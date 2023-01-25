@@ -92,6 +92,7 @@ async function check_price() {
     }
     catch (err) {
         console.log(err.message);
+        is_job_running = false;
     }
 };
 

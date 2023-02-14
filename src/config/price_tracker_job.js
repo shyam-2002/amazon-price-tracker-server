@@ -97,8 +97,4 @@ async function check_price() {
 };
 
 
-<<<<<<< HEAD
-setInterval(check_price, 5000);
-=======
 setInterval(check_price, 300000);
->>>>>>> tmp2

@@ -78,11 +78,11 @@ async function check_price() {
                 let price = find_price(price_str);
                 if(price !== null && price !== undefined){
                     let len = product.prices.length;
-                    if(price < product.prices[len-1].price){
+                    if(len >0 && price < product.prices[len-1].price){
                         console.log(`price decreased for product id : ${product._id}`);
                         await find_target_users_and_send_mails(product, price);
                     }
-                    if(price != product.prices[len-1].price) {
+                    if(len == 0 || price != product.prices[len-1].price) {
                         await Product.updateOne({_id : product._id}, {'$push' : {"prices" : {price : price, date : new Date()}}});
                     }
                 }
@@ -96,4 +96,4 @@ async function check_price() {
 };
 
 
-setInterval(check_price, 10000);
+setInterval(check_price, 300000);

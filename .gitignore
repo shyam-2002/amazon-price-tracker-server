@@ -2,3 +2,4 @@
 Dockerfile
 buildspec.yml
 .env
+node_modules

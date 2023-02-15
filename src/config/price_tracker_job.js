@@ -6,7 +6,12 @@ let send_mail = require('./nodemailer');
 
 let fetch_markup = async (url)=>{
     try{
-        let html = await axios.get(url);
+        let html = await axios.get(url, {
+            headers: {
+                Accept: "application/json",
+                "User-Agent": "axios 0.21.1"
+            }
+        });
         let markup = cheerio.load(html.data);
         return markup;
     }

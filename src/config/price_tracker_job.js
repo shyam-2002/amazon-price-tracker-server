@@ -73,10 +73,14 @@ async function check_price() {
             let productCount = products.length;
             for (let i = 0; i < productCount; i++) {
                 let product = products[i];
+                console.log(`checking price for product : ${product.name}`);
                 let markup = await fetch_markup(product.url);
                 let price_str = find_price_str(product.seller, markup);
+                console.log(price_str);
                 let price = find_price(price_str);
-                if(price !== null && price !== undefined){
+                console.log(price);
+                
+                if(price != NaN && price !== null && price !== undefined){
                     let len = product.prices.length;
                     if(len >0 && price < product.prices[len-1].price){
                         console.log(`price decreased for product id : ${product._id}`);
@@ -86,6 +90,7 @@ async function check_price() {
                         await Product.updateOne({_id : product._id}, {'$push' : {"prices" : {price : price, date : new Date()}}});
                     }
                 }
+                console.log(`done for product ${product.name}`);
             }
             is_job_running = false;
         }

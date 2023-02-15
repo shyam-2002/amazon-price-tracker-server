@@ -60,6 +60,12 @@ let find_target_users_and_send_mails = async (product, price)=>{
     }
 }
 
+function isNumeric(str) {
+    if (typeof str == "string") return false // we only process strings!  
+    return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+           !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+  }
+
 
 
 let is_job_running = false;
@@ -80,7 +86,8 @@ async function check_price() {
                 let price = find_price(price_str);
                 console.log(price);
                 
-                if(price != NaN && price !== null && price !== undefined){
+                if(isNumeric(price)){
+                    console.log("hi");
                     let len = product.prices.length;
                     if(len >0 && price < product.prices[len-1].price){
                         console.log(`price decreased for product id : ${product._id}`);

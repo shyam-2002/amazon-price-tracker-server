@@ -9,7 +9,7 @@ let fetch_markup = async (url)=>{
         let html = await axios.get(url, {
             headers: {
                 Accept: "application/json",
-                "User-Agent": "axios 0.21.1"
+                "User-Agent": "axios 0.27.2"
             }
         });
         let markup = cheerio.load(html.data);
